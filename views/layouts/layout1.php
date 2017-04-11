@@ -1,77 +1,64 @@
+<?php 
+use app\assets\AppAsset;
+use yii\bootstrap\NavBar;
+use yii\bootstrap\Nav;
+use yii\helpers\Url;
+AppAsset::register($this);
+$this->beginPage();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Meta -->
-        <meta charset="utf-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <meta name="keywords" content="MediaCenter, Template, eCommerce">
-        <meta name="robots" content="all">
+        <?php $this->registerMetaTag(['http-equiv'=>'Content-Type','content'=>'text/html; charset=UTF-8']) ?>
+        <?php $this->registerMetaTag(['name'=>'viewport','content'=>'width=device-width, initial-scale=1.0, user-scalable=no']) ?>
+        <?php $this->registerMetaTag(['name'=>'description','content'=>''])?>
+        <?php $this->registerMetaTag(['name'=>'author','content'=>''])?>
+        <?php $this->registerMetaTag(['name'=>'keywords','content'=>'MediaCenter, Template, eCommerce'])?>
+        <?php $this->registerMetaTag(['name'=>'robots','content'=>'all'])?>
+       
 
-        <title>MediaCenter - Responsive eCommerce Template</title>
+        <title><?php $this->title ?></title>
 
-        <!-- Bootstrap Core CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-        
-        <!-- Customizable CSS -->
-        <link rel="stylesheet" href="assets/css/main.css">
-        <link rel="stylesheet" href="assets/css/green.css">
-        <link rel="stylesheet" href="assets/css/owl.carousel.css">
-        <link rel="stylesheet" href="assets/css/owl.transitions.css">
-        <link rel="stylesheet" href="assets/css/animate.min.css">
-
-        <!-- Demo Purpose Only. Should be removed in production -->
-        <link rel="stylesheet" href="assets/css/config.css">
-
-        <link href="assets/css/green.css" rel="alternate stylesheet" title="Green color">
-        <link href="assets/css/blue.css" rel="alternate stylesheet" title="Blue color">
-        <link href="assets/css/red.css" rel="alternate stylesheet" title="Red color">
-        <link href="assets/css/orange.css" rel="alternate stylesheet" title="Orange color">
-        <link href="assets/css/navy.css" rel="alternate stylesheet" title="Navy color">
-        <link href="assets/css/dark-green.css" rel="alternate stylesheet" title="Darkgreen color">
-        <!-- Demo Purpose Only. Should be removed in production : END -->
-        
-        <!-- Icons/Glyphs -->
-        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-        
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-        <!-- HTML5 elements and media queries Support for IE8 : HTML5 shim and Respond.js -->
-        <!--[if lt IE 9]>
-            <script src="assets/js/html5shiv.js"></script>
-            <script src="assets/js/respond.min.js"></script>
-        <![endif]-->
+        <?php $this->head() ?>
+    
     </head>
+    <?php $this->beginBody() ?>
 <body>
     
     <div class="wrapper">
-        <!-- ============================================================= TOP NAVIGATION ============================================================= -->
-    <nav class="top-bar animate-dropdown">
-    <div class="container">
-        <div class="col-xs-12 col-sm-6 no-margin">
-            <ul>
-                <li><a href="<?php echo yii\helpers\Url::to(['index/index']) ?>">首页</a></li>
-                <li><a href="<?php echo yii\helpers\Url::to(['index/index']) ?>">所有分类</a></li>
-                <li><a href="<?php echo yii\helpers\Url::to(['cart/index']) ?>">我的购物车</a></li>
-                <li><a href="<?php echo yii\helpers\Url::to(['order/index']) ?>">我的订单</a></li>
-            </ul>
-        </div><!-- /.col -->
-        
-        <div class="col-xs-12 col-sm-6 no-margin">
-            <ul class="right">
-            <?php if (\Yii::$app->session['isLogin'] == 1): ?>
-                您好 , 欢迎您回来 <?php echo \Yii::$app->session['loginname']; ?> , <a href="<?php echo yii\helpers\Url::to(['member/logout']); ?>">退出</a>
-            <?php else: ?>
-                <li><a href="<?php echo yii\helpers\Url::to(['member/auth']); ?>">注册</a></li>
-                <li><a href="<?php echo yii\helpers\Url::to(['member/auth']); ?>">登录</a></li>
-            <?php endif; ?>
-            </ul>
-        </div><!-- /.col -->
-    </div><!-- /.container -->
-    </nav><!-- /.top-bar -->
+    <?php 
+        NavBar::begin([
+                'options'=>[
+                    'class'=>'top-bar animate-dropdown',
+                ]
+            ]);
+        echo Nav::widget([
+            'options'=>[
+                'class'=>'navbar-nav navbar-left',
+            ],
+            'items'=>[
+                ['label'=>'首页','url'=>Url::to(['index/index'])],
+                ['label'=>'所有分类','url'=>Url::to(['index/index'])],
+                ['label'=>'我的购物车','url'=>Url::to(['cart/index'])],
+                ['label'=>'我的订单','url'=>Url::to(['order/index'])],
+            ]
+        ]);
+
+        echo Nav::widget([
+            'options'=>[
+                'class'=>'navbar-nav navbar-right',
+            ],
+            'items'=>[
+                (\Yii::$app->session['isLogin'] == 1)?['label'=>'您好 , 欢迎您回来','url'=>Url::to(['member/logout'])]:'',
+                (\Yii::$app->session['isLogin'] != 1)?['label'=>'注册','url'=>Url::to(['member/auth'])]:'',
+                (\Yii::$app->session['isLogin'] != 1)?['label'=>'登录','url'=>Url::to(['member/auth'])]:'',
+
+            ]
+        ]);
+
+        NavBar::end();
+    ?>
+    
 
 <header class="no-padding-bottom header-alt">
     <div class="container no-padding">
@@ -310,32 +297,14 @@
     </div><!-- /.copyright-bar -->
 
 </footer><!-- /#footer -->
-<!-- ============================================================= FOOTER : END ============================================================= -->   </div><!-- /.wrapper -->
+ </div><!-- /.wrapper -->
 
-    <!-- For demo purposes – can be removed on production -->
-
-    <!-- For demo purposes – can be removed on production : End -->
-
-    <!-- JavaScripts placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery-1.10.2.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/gmap3.min.js"></script>
-    <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/css_browser_selector.min.js"></script>
-    <script src="assets/js/echo.min.js"></script>
-    <script src="assets/js/jquery.easing-1.3.min.js"></script>
-    <script src="assets/js/bootstrap-slider.min.js"></script>
-    <script src="assets/js/jquery.raty.min.js"></script>
-    <script src="assets/js/jquery.prettyPhoto.min.js"></script>
-    <script src="assets/js/jquery.customSelect.min.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/scripts.js"></script>
 
    
 
 
 
 </body>
+<?php $this->endBody() ?>
 </html>
+<?php $this->endPage() ?>
