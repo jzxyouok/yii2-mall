@@ -18,17 +18,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $theme = ['Navy','Green','Blue','Red','Orange','Darkgreen'];
-   /* public $css = [
-        'css/main.css',
-        'css/green.css',
-        'css/owl.carousel.css',
-        'css/owl.transitions.css',
-        'css/animate.min.css',
-        'css/config.css',
-        'css/Navy.css'
-    ];
-    public $js = [
-    ];*/
+   
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

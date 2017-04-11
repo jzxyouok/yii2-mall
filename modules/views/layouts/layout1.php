@@ -1,36 +1,20 @@
+<?php 
+use app\assets\AdminAsset;
+use yii\helpers\Url;
+AdminAsset::register($this);
+$this->beginPage();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>慕课商城 - 后台管理</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- bootstrap -->
-    <link href="/web/assets/admin/css/bootstrap/bootstrap.css" rel="stylesheet" />
-    <link href="/web/assets/admin/css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
-    <link href="/web/assets/admin/css/bootstrap/bootstrap-overrides.css" type="text/css" rel="stylesheet" />
-
-    <!-- libraries -->
-    <link href="/web/assets/admin/css/lib/jquery-ui-1.10.2.custom.css" rel="stylesheet" type="text/css" />
-    <link href="/web/assets/admin/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
-
-    <!-- global styles -->
-    <link rel="stylesheet" type="text/css" href="/web/assets/admin/css/layout.css" />
-    <link rel="stylesheet" type="text/css" href="/web/assets/admin/css/elements.css" />
-    <link rel="stylesheet" type="text/css" href="/web/assets/admin/css/icons.css" />
-
-    <!-- this page specific styles -->
-    <link rel="stylesheet" href="/web/assets/admin/css/compiled/index.css" type="text/css" media="screen" />    
-    <link href="/web/assets/admin/css/lib/bootstrap-wysihtml5.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" href="/web/assets/admin/css/compiled/form-showcase.css" type="text/css" media="screen" />
-    <!-- open sans font -->
-
-    <!-- lato font -->
-
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+    <?php $this->head() ?>
+    <?php $this->registerMetaTag(['name'=>'viewport','content'=>'width=device-width, initial-scale=1.0']) ?>
+    <?php $this->registerMetaTag(['http-equiv'=>'Content-Type','content'=>'text/html; charset=utf-8']) ?>
+   
+</head>
+<?php $this->beginBody() ?>
 <body>
 
     <!-- navbar -->
@@ -99,7 +83,7 @@
                             <a href="#" class="close-icon"><i class="icon-remove-sign"></i></a>
                             <div class="messages">
                                 <a href="#" class="item">
-                                    <img src="/assets/admin/img/contact-img.png" class="display" />
+                                    <img src="admin/img/contact-img.png" class="display" />
                                     <div class="name">Alejandra Galván</div>
                                     <div class="msg">
                                         There are many variations of available, but the majority have suffered alterations.
@@ -107,7 +91,7 @@
                                     <span class="time"><i class="icon-time"></i> 13 min.</span>
                                 </a>
                                 <a href="#" class="item">
-                                    <img src="/assets/admin/img/contact-img2.png" class="display" />
+                                    <img src="admin/img/contact-img2.png" class="display" />
                                     <div class="name">Alejandra Galván</div>
                                     <div class="msg">
                                         There are many variations of available, have suffered alterations.
@@ -115,7 +99,7 @@
                                     <span class="time"><i class="icon-time"></i> 26 min.</span>
                                 </a>
                                 <a href="#" class="item last">
-                                    <img src="/assets/admin/img/contact-img.png" class="display" />
+                                    <img src="admin/img/contact-img.png" class="display" />
                                     <div class="name">Alejandra Galván</div>
                                     <div class="msg">
                                         There are many variations of available, but the majority have suffered alterations.
@@ -163,7 +147,7 @@
                     <div class="arrow"></div>
                     <div class="arrow_border"></div>
                 </div>
-                <a href="index.html">
+                <a href="<?php echo Url::to(['default/index']) ?>">
                     <i class="icon-home"></i>
                     <span>后台首页</span>
                 </a>
@@ -230,18 +214,7 @@
                 </ul>
             </li>
 
-            <li>
-                <a href="gallery.html">
-                    <i class="icon-picture"></i>
-                    <span>相册管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="calendar.html">
-                    <i class="icon-calendar-empty"></i>
-                    <span>日历事件管理</span>
-                </a>
-            </li>
+          
             <li>
                 <a href="tables.html">
                     <i class="icon-th-large"></i>
@@ -261,24 +234,10 @@
     <!-- end sidebar -->
 
     <?php echo $content ; ?>
-
-
-    <!-- scripts -->
-    <script src="/web/assets/admin/js/jquery-latest.js"></script>
-    <script src="/web/assets/admin/js/bootstrap.min.js"></script>
-    <script src="/web/assets/admin/js/jquery-ui-1.10.2.custom.min.js"></script>
-    <!-- knob -->
-    <script src="/web/assets/admin/js/jquery.knob.js"></script>
-    <!-- flot charts -->
-    <script src="/web/assets/admin/js/jquery.flot.js"></script>
-    <script src="/web/assets/admin/js/jquery.flot.stack.js"></script>
-    <script src="/web/assets/admin/js/jquery.flot.resize.js"></script>
-    <script src="/web/assets/admin/js/theme.js"></script>
-    <script src="/web/assets/admin/js/wysihtml5-0.3.0.js"></script>
-    <script src="/web/assets/admin/js/bootstrap-wysihtml5-0.0.2.js"></script>
+    
 
     <script type="text/javascript">
-        $(function () {
+        /*$(function () {
 
             // jQuery Knobs
             $(".knob").knob();
@@ -388,8 +347,26 @@
                     previousPoint = null;
                 }
             });
+        });*/
+       /* $(".wysihtml5").wysihtml5({
+            "font-styles": false
         });
-        $(".wysihtml5").wysihtml5({
+        $("#addpic").click(function(){
+            var pic = $("#product-pics").clone();
+            pic.attr("style", "margin-left:120px");
+            $("#product-pics").parent().append(pic);
+        });*/
+
+    </script>
+
+
+</body>
+<?php $this->endBody() ?>
+<?php if(isset($this->blocks['viewJs'])): ?>
+    <?php echo $this->blocks['viewJs'] ?>
+<?php endif; ?>
+<script type="text/javascript">
+    $(".wysihtml5").wysihtml5({
             "font-styles": false
         });
         $("#addpic").click(function(){
@@ -397,9 +374,7 @@
             pic.attr("style", "margin-left:120px");
             $("#product-pics").parent().append(pic);
         });
-
-    </script>
-
-</body>
+</script>
 </html>
+<?php $this->endPage() ?>
 
