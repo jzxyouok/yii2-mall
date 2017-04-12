@@ -17,7 +17,18 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
+            'idParam'=>'__user',
+            'identityCookie'=>['name'=>'__user_identity','httpOnly'=>true],
             'enableAutoLogin' => true,
+            'loginUrl'=>['member/auth'],
+        ],
+        'admin'=>[
+            'class'=>'yii\web\User',
+            'identityClass' => 'app\modules\models\Admin',
+            'idParam'=>'__admin',
+            'identityCookie'=>['name'=>'__admin_identity','httpOnly'=>true],
+            'enableAutoLogin' => true,
+            'loginUrl'=>['admin/public/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -56,7 +67,27 @@ $config = [
             ],
         ],
         */
+       'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'js' => [
+                        YII_ENV_DEV  ? 'jquery.js' : 'jquery.min.js'
+                    ]
+                ],
+                'yii\bootstrap\BootstrapAsset'=>[
+                    'css'=>[
+                        YII_ENV_DEV  ? 'css/bootstrap.css' : 'css/bootstrap.min.css'
+                    ]
+                ],
+                'yii\bootstrap\BootstrapPluginAsset'=>[
+                    'css'=>[
+                        YII_ENV_DEV  ? 'js/bootstrap.js' : 'js/bootstrap.min.js'
+                    ]
+                ]
+            ],
+        ],
     ],
+    
     'params' => $params,
 ];
 

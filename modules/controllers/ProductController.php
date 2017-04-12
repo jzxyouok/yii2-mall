@@ -8,6 +8,10 @@ use yii\data\Pagination;
 use crazyfd\qiniu\Qiniu;
 use app\modules\controllers\CommonController;
 class ProductController extends CommonController{
+    protected $except=[];
+    protected $myAction=[
+        'add','upload','products','removepic','edit','del','on','off','position'
+    ];
 	 public function actionAdd()
     {
         $this->layout = "layout1";

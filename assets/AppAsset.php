@@ -55,4 +55,5 @@ class AppAsset extends AssetBundle
         ];
         parent::registerAssetFiles($view);
     }
+
 }

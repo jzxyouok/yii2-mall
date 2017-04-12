@@ -14,6 +14,7 @@ class DefaultController extends CommonController
      * Renders the index view for the module
      * @return string
      */
+   
     public function actionIndex()
     {
         $this->layout = 'layout1';

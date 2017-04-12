@@ -2,7 +2,7 @@
 namespace app\modules\models;
 use yii\db\ActiveRecord;
 use Yii;
-class Admin extends ActiveRecord{
+class Admin extends ActiveRecord implements \yii\web\IdentityInterface {
 	public $rememberMe = true;
 	public $repass;
 	public static function tableName(){
@@ -45,10 +45,16 @@ class Admin extends ActiveRecord{
 		}
 	}
 
+	public function getUser(){
+		return $this->find()->where('adminuser=:user',[':user'=>$this->adminuser])->one();
+	}
+
 	public function login($data){
 		$this->scenario = 'login';
 		if($this->load($data) && $this->validate()){
-			$lifetime = $this->rememberMe ? 3600*24 :0;
+			return Yii::$app->admin->login($this->getUser(),$this->rememberMe ? 3600*24 :0);
+
+			/*$lifetime = $this->rememberMe ? 3600*24 :0;
 			$session = Yii::$app->session;
 			session_set_cookie_params($lifetime);
 			$session['admin'] = array(
@@ -63,7 +69,7 @@ class Admin extends ActiveRecord{
 				'adminuser= :user',
 				[':user'=>$this->adminuser]
 			);
-			return true;
+			return true;*/
 		}else{
 			return false;
 		}
@@ -144,6 +150,24 @@ class Admin extends ActiveRecord{
 			return (bool)$rel;
 		}
 		return false;
+	}
+
+	public static function findIdentity($id){
+		return static::findOne($id);
+	}
+	public static function findIdentityByAccessToken($token, $type = null){
+
+	}
+
+	public function getId(){
+		return $this->adminid;
+	}
+	public function getAuthKey(){
+
+	}
+
+	public function validateAuthKey($authKey){
+
 	}
 	
 }

@@ -49,9 +49,9 @@ $this->beginPage();
                 'class'=>'navbar-nav navbar-right',
             ],
             'items'=>[
-                (\Yii::$app->session['isLogin'] == 1)?['label'=>'您好 , 欢迎您回来','url'=>Url::to(['member/logout'])]:'',
-                (\Yii::$app->session['isLogin'] != 1)?['label'=>'注册','url'=>Url::to(['member/auth'])]:'',
-                (\Yii::$app->session['isLogin'] != 1)?['label'=>'登录','url'=>Url::to(['member/auth'])]:'',
+                (!\Yii::$app->user->isGuest)?['label'=>'您好 , 欢迎您回来','url'=>Url::to(['member/logout'])]:'',
+                (\Yii::$app->user->isGuest)?['label'=>'注册','url'=>Url::to(['member/auth'])]:'',
+                (\Yii::$app->user->isGuest)?['label'=>'登录','url'=>Url::to(['member/auth'])]:'',
 
             ]
         ]);
@@ -74,9 +74,9 @@ $this->beginPage();
     </div>
     <div class="contact inline">
         <i class="fa fa-envelope"></i> <span class="le-color"><?php 
-            if(isset(Yii::$app->session['user']['isLogin'])){
+            if(!Yii::$app->user->isGuest){
                 echo '欢迎 ';
-                echo Yii::$app->session['user']['user'];
+                echo Yii::$app->user->identity->username;
                 echo "<a href='".yii\helpers\Url::to(['member/logout'])."'> [退出]</a>";
             }else{?>
                 <a href="<?php echo yii\helpers\Url::to(['member/auth']) ?>">[登录]</a>

@@ -4,6 +4,7 @@ use yii\web\Controller;
 use app\models\User;
 use Yii;
 class MemberController extends CommonController{
+	protected $except=['*'];
 	public function actionAuth(){
 		$this->layout = 'layout1';
 		$model = new User;
@@ -38,8 +39,8 @@ class MemberController extends CommonController{
 	
 	public function actionLogout(){
 		$this->layout = 'layout1';
+		Yii::$app->user->logout(false);
 		$model = new User;
-		Yii::$app->session->remove('user');
 		return $this->render('auth',['model'=>$model]);
 
 	}

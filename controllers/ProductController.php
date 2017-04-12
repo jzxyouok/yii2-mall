@@ -6,6 +6,7 @@ use yii\data\Pagination;
 use app\models\Cart;
 use Yii;
 class ProductController extends CommonController{
+	protected $except=['*'];
 	public $layout = 'layout1';
 	public function actionIndex(){
 		$this->layout = 'layout1';

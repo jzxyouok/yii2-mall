@@ -9,6 +9,10 @@ class ManageController extends CommonController{
 	/*
 	通过邮件找回密码
 	 */
+	protected $except=[];
+	/*protected $myAction=[
+		'mailchangepass','managers','reg','del','changeemail','changepass'
+	];*/
 	public function actionMailchangepass(){
 		$admin = new Admin;
 		$time = Yii::$app->request->get('timestamp');

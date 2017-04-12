@@ -6,10 +6,9 @@ use app\models\Cart;
 use app\models\Product;
 use Yii;
 class CartController extends CommonController{
+	protected $except=['*'];
 	public function actionIndex(){
-		if(Yii::$app->session['user']['isLogin']!=1){
-			return $this->redirect(['member/auth']);
-		}
+
 		$this->layout = 'layout1';
 		$session = Yii::$app->session;
 		if($session['isUsername']){
@@ -38,9 +37,7 @@ class CartController extends CommonController{
 	加入购物车
 	 */
 	public function actionAdd(){
-		if(Yii::$app->session['user']['isLogin']!=1){
-			return $this->redirect(['member/auth']);
-		}
+		
 		
 		$session = Yii::$app->session;
 		$data = array();

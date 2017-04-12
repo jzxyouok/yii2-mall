@@ -11,6 +11,7 @@ class PublicController extends Controller{
 			$this->redirect(['default/index']);
 			Yii::$app->end();
 		}
+
 		if(Yii::$app->request->isPost){
 			$post = Yii::$app->request->Post();
 			if($model->login($post)){
@@ -22,10 +23,12 @@ class PublicController extends Controller{
 	}
 
 	public function actionLogout(){
-		Yii::$app->session->removeAll();
+		Yii::$app->admin->logout(false);
+		/*Yii::$app->session->removeAll();
 		if(!isset(Yii::$app->session['adminuser']['isLogin'])){
-			$this->redirect(['public/login']);
-		}
+			$this->redirect(['public/login']); 
+		}*/
+		$this->redirect(['public/login']);
 	}
 
 	public function actionSeekpassword(){

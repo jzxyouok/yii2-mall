@@ -3,7 +3,7 @@
 namespace app\models;
 use yii\db\ActiveRecord;
 use Yii;
-class User extends ActiveRecord{
+class User extends ActiveRecord implements \yii\web\IdentityInterface{
     public $rememberMe;
     public $user;
     public $repass;
@@ -73,13 +73,18 @@ class User extends ActiveRecord{
         }
     }
 
+    protected function getUser(){
+        return $this->find()->where('username=:user or useremail=:user',[':user'=>$this->user])->one();
+    }
+
     /*
     登录
      */
     public function login($data){
         $this->scenario = 'login';
         if($this->load($data) && $this->validate()){
-            $session = Yii::$app->session;
+            return Yii::$app->user->login($this->getUser(),3600*24);
+           /* $session = Yii::$app->session;
             $session['user']=[
                 'user'=>$this->user,
                 'isLogin' =>1,
@@ -88,7 +93,7 @@ class User extends ActiveRecord{
             if($this->rememberMe==1){
                 session_get_cookie_params(3600*12);
             }
-            return true;
+            return true;*/
             
         }
         return false;
@@ -159,4 +164,22 @@ class User extends ActiveRecord{
             return false;
         }
     }
+
+
+    public static function findIdentity($id){
+        return static::findOne($id);
+    }
+    public static function findIdentityByAccessToken($token, $type = null){
+
+    }
+    public function getId(){
+        return $this->userid;
+    }
+    public function getAuthKey(){
+
+    }
+    public function validateAuthKey($authKey){
+
+    }
 }
+

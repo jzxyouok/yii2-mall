@@ -11,22 +11,22 @@ use app\models\Pay;
 use \dzer\express\Express;
 use Yii;
 class OrderController extends CommonController{
+	protected $myActions=[
+		'index','pay','confirm','check','received','getexpress'
+	];
+	protected $verbs=[
+		'index'=>['post','get'],
+	];
 	public function actionAdd(){
-		if(Yii::$app->session['user']['isLogin']!=1){
-			return $this->redirect(['member/auth']);
-		}
-		if(Yii::$app->session['isUsername']==1){
-			$where = 'username=:user';
-		}else{
-			$where = 'useremail=:user';
-		}
+		
+
 		$this->layout = 'layout1';
 		if(Yii::$app->request->isPost){
 			$post = Yii::$app->request->Post();
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
 				$ordermodel = new Order;
-				$usermodel = User::find()->where($where,[':user'=>Yii::$app->session['user']['user']])->one();
+				$usermodel = User::findOne(Yii::$app->user->id);
 				if(empty($usermodel)){
 					throw new \Exception();
 				}
@@ -66,12 +66,12 @@ class OrderController extends CommonController{
 
 	public function actionCheck(){
 		$this->layout = 'layout1';
-		if(Yii::$app->session['user']['isLogin']!=1){
-			return $this->redirect(['member/auth']);
-		}
+		// if(Yii::$app->session['user']['isLogin']!=1){
+		// 	return $this->redirect(['member/auth']);
+		// }
 		$orderid = Yii::$app->request->get('orderid');
-		$user = Yii::$app->session['user'];
-		$usermodel = User::find()->where('username=:user or useremail=:email',[':user'=>$user['user'],':email'=>$user['user']])->one();
+		// $user = Yii::$app->session['user'];
+		$usermodel = User::findOne(Yii::$app->user->id);
 		/*if(empty($orderid)){
 			$usermodel = User::find()->where('username=:user or useremail=:email',[':user'=>$user['user'],':email'=>$user['user']])->one();
 			if(empty($usermodel)){
@@ -114,11 +114,12 @@ class OrderController extends CommonController{
 
 	public function actionIndex(){
 		$this->layout='layout1';
-		if(Yii::$app->session['user']['isLogin']!=1){
+		/*if(Yii::$app->session['user']['isLogin']!=1){
 			return $this->redirect(['member/auth']);
-		}
-		$user = Yii::$app->session['user']['user'];
-		$userid = User::find()->where('username=:user or useremail=:email',[':user'=>$user,':email'=>$user])->one()->userid;
+		}*/
+		// $user = Yii::$app->session['user']['user'];
+		// $userid = User::find()->where('username=:user or useremail=:email',[':user'=>$user,':email'=>$user])->one()->userid;
+		$userid = Yii::$app->user->id;
 		$orders = Order::find()->where('userid=:uid',[':uid'=>$userid])->all();
 		$orders = Order::getorders($orders);
 		return $this->render('index',['orders'=>$orders]);
@@ -142,15 +143,10 @@ class OrderController extends CommonController{
 	}
 
 	public function actionConfirm(){
-		if(Yii::$app->session['user']['isLogin']!=1){
-			return $this->redirect(['member/auth']);
-		}
-
 		$user = Yii::$app->session['user']['user'];
 		$this->layout = 'layout1';
 		if(Yii::$app->request->isPost){
 			$post = Yii::$app->request->Post();
-			var_dump($post);
 			try {
 				
 				$ordermodel = Order::find()->where('orderid=:oid',[':oid'=>$post['orderid']])->one();

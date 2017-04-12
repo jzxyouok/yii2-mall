@@ -6,6 +6,10 @@ use app\models\Order;
 use Yii;
 use app\modules\controllers\CommonController;
 class OrderController extends CommonController{
+	protected $except=[];
+	protected $myAction=[
+		'orders','detail','send'
+	];
 	public function actionOrders(){
 		$this->layout = 'layout1';
 		$count = Order::find()->count();

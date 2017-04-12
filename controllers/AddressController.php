@@ -5,6 +5,7 @@ use yii\web\Controller;
 use app\models\User;
 use app\models\Address;
 class AddressController extends Controller{
+	protected $except=['*'];
 	public function actionAdd(){
 		$user = Yii::$app->session['user'];
 		if($user['isLogin']!=1){

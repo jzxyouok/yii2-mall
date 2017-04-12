@@ -6,6 +6,10 @@ use yii\web\Controller;
 use yii\data\Pagination;
 use Yii;
 class CategoryController extends CommonController{
+	protected $except=[];
+	protected $myAction=[
+		'list','add','del','edit',
+	];
 	public function actionList(){
 		$this->layout = 'layout1';
 		$model = new Category;

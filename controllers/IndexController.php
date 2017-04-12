@@ -3,6 +3,7 @@ namespace app\controllers;
 use yii\web\Controller;
 use app\models\Product;
 class IndexController extends CommonController{
+	protected $except=['*'];
 	public function actionIndex(){
 		// $this->layout = false;
 		// return $this->render("index");
