@@ -1,5 +1,7 @@
 
-    
+    <?php 
+    use yii\helpers\Url;
+    ?>
 
 	<!-- main container -->
     <div class="content">
@@ -108,6 +110,7 @@
                                 <?php echo long2ip($manager->loginip) ?>
                             </td>
                             <td class="align-right">
+                            <a href="<?php echo Url::to(['manage/assign','adminid'=>$manager->adminid]) ?>">分配权限</a>
                                 <a href="<?php echo yii\helpers\Url::to(['manage/del','adminid'=>$manager->adminid]) ?>"><i class="table-delete"></i></a>
                             </td>
                         </tr>

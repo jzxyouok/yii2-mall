@@ -6,7 +6,6 @@
     <div class="content">
 
         <div class="container-fluid">
-
             <!-- upper main stats -->
             <div id="main-stats">
                 <div class="row-fluid stats-row">

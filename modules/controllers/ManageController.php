@@ -5,14 +5,13 @@ use app\modules\models\Admin;
 use yii\data\Pagination;
 use Yii;
 use app\modules\controllers\CommonController;
-class ManageController extends CommonController{
+use app\modules\models\Rbac;
+class ManageController extends Controller{
 	/*
 	通过邮件找回密码
 	 */
-	protected $except=[];
-	/*protected $myAction=[
-		'mailchangepass','managers','reg','del','changeemail','changepass'
-	];*/
+	public $layout = 'layout1';
+	
 	public function actionMailchangepass(){
 		$admin = new Admin;
 		$time = Yii::$app->request->get('timestamp');
@@ -56,7 +55,6 @@ class ManageController extends CommonController{
 	 */
 	
 	public function actionReg(){
-		$this->layout = 'layout1';
 		$model = new Admin;
 		if(Yii::$app->request->isPost){
 			$post = Yii::$app->request->Post();
@@ -95,7 +93,8 @@ class ManageController extends CommonController{
 	 */
 	
 	public function actionChangeemail(){
-		$model = Admin::find()->where('adminuser=:user',[':user'=>Yii::$app->session['admin']['adminuser']])->one();
+		$user = Yii::$app->admin->id;
+		$model = Admin::find()->where('adminid=:user',[':user'=>$user])->one();
 		$this->layout = 'layout1';
 		if(Yii::$app->request->isPost){
 			$post = Yii::$app->request->Post();
@@ -111,7 +110,8 @@ class ManageController extends CommonController{
 
 	public function actionChangepass(){
 		$this->layout = 'layout1';
-		$model = Admin::find()->where('adminuser=:user',[':user'=>Yii::$app->session['admin']['adminuser']])->one();
+		$user = Yii::$app->admin->id;
+		$model = Admin::find()->where('adminid=:user',[':user'=>$user])->one();
 		if(Yii::$app->request->isPost){
 			$post = Yii::$app->request->Post();
 			if($model->changepass($post)){
@@ -122,5 +122,35 @@ class ManageController extends CommonController{
 		}
 		$model->adminpass = '';
 		return $this->render('changepass',['model'=>$model]);
+	}
+
+	public function actionAssign($adminid){
+		if(empty($adminid)){
+			throw new \Exception('参数错误');
+			
+		}
+		$admin = Admin::findOne($adminid);
+		
+		if(empty($admin)){
+			return new \yii\web\NotFoundHttpException('admin not find');
+		}
+		$auth = Yii::$app->authManager;
+		$roles = Rbac::getOption($auth->getRoles());
+		$permissions = Rbac::getOption($auth->getPermissions());
+		$children = Rbac::getAssignByUserid($adminid);
+		if(Yii::$app->request->isPost){
+			$data = Yii::$app->request->post();
+			if(Rbac::grant($admin->id,$data['children'])){
+				Yii::$app->session->setFlash('info','授权成功');
+			}else{
+				Yii::$app->session->setFlash('info','授权失败');
+			}
+		}
+		return $this->render('_assignItem',[
+			'roles'=>$roles,
+			'permissions'=>$permissions,
+			'admin'=>$admin,
+			'children'=>$children,
+		]);
 	}
 }

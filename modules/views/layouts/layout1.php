@@ -1,6 +1,7 @@
 <?php 
 use app\assets\AdminAsset;
 use yii\helpers\Url;
+use yii\widgets\Breadcrumbs;
 AdminAsset::register($this);
 $this->beginPage();
 ?>
@@ -8,7 +9,7 @@ $this->beginPage();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>慕课商城 - 后台管理</title>
+    <title>慕课商城 - 后台管理 - <?php echo $this->title ?></title>
     <?php $this->head() ?>
     <?php $this->registerMetaTag(['name'=>'viewport','content'=>'width=device-width, initial-scale=1.0']) ?>
     <?php $this->registerMetaTag(['http-equiv'=>'Content-Type','content'=>'text/html; charset=utf-8']) ?>
@@ -16,7 +17,7 @@ $this->beginPage();
 </head>
 <?php $this->beginBody() ?>
 <body>
-
+   
     <!-- navbar -->
     <div class="navbar navbar-inverse">
         <div class="navbar-inner">
@@ -213,7 +214,18 @@ $this->beginPage();
                 <li><a href="<?php echo yii\helpers\Url::to(['order/orders']); ?>">订单列表</a></li>
                 </ul>
             </li>
-
+            
+             <li>
+                <a class="dropdown-toggle" href="#">
+                    <i class="icon-group"></i>
+                    <span>权限管理</span>
+                    <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="submenu">
+                <li><a href="<?php echo yii\helpers\Url::to(['rbac/roles']); ?>">用户列表</a></li>
+                <li><a href="<?php echo yii\helpers\Url::to(['rbac/create-role']); ?>">添加角色</a></li>
+                </ul>
+            </li>
           
             <li>
                 <a href="tables.html">
@@ -232,7 +244,7 @@ $this->beginPage();
         </ul>
     </div>
     <!-- end sidebar -->
-
+     
     <?php echo $content ; ?>
     
 
